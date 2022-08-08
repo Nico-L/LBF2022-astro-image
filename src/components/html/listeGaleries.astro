@@ -6,6 +6,7 @@ const {galeries, adresseCMS} = Astro.props
 import {
   Picture 
 } from "astro-imagetools/components";
+import slugify from 'slugify';
 
 function shortDate(value) {
     const laDate = new Date(value)
@@ -80,7 +81,7 @@ function shortDate(value) {
                 <div>{shortDate(galerie.updated_at)}</div>
             </div>
         </div>
-        <a href="/galeries/{{ galerie.titre | slug }}/" class="absolute inset-0 w-full h-full cursor-pointer"></a>
+        <a href={"/galeries/" + slugify(galerie.titre)} class="absolute inset-0 w-full h-full cursor-pointer"></a>
     </div>
     ))}
 </div>
