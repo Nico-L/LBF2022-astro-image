@@ -10,13 +10,14 @@ const handler = async function (event) {
   try {
     console.log("bob ?", url)
     inscriptions.forEach(async (inscrit)=> {
-      console.log('bobby ?')
       inscrit.user = 1
+      console.log(inscrit)
       const options = { 
           method: 'POST',
           headers: { "content-type": "application/json" },
           body: JSON.stringify(inscrit)
       }
+      console.log('boum')
       const response = await fetch(url, options)
       console.log('response', response)
       const data = await response.json()
