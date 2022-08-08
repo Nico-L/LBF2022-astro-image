@@ -16,6 +16,7 @@ const handler = async function (event) {
       }
       const response = await fetch(url, options)
       const data = await response.json()
+      console.log('data', data)
       isOK = isOK && !!data.id
     })
 
