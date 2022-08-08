@@ -5,6 +5,7 @@ const url =  urlCMS + "inscriptions-ateliers?token=" + token
 
 const handler = async function (event) {
   const inscriptions = JSON.parse(event.queryStringParameters.inscriptions) || []
+  console.log('inscriptions', inscriptions)
   var isOK = true
   try {
     inscriptions.forEach(async (inscrit)=> {
