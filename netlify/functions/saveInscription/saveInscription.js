@@ -7,9 +7,10 @@ const handler = async function (event) {
   const inscriptions = JSON.parse(event.queryStringParameters.inscriptions) || []
   console.log('inscriptions', inscriptions)
   var isOK = true
+  var promesses = []
   try {
     console.log("bob ?", url)
-    inscriptions.forEach(async (inscrit)=> {
+    inscriptions.forEach((inscrit)=> {
       inscrit.user = 1
       console.log(inscrit)
       const options = { 
@@ -17,14 +18,16 @@ const handler = async function (event) {
           headers: { "content-type": "application/json" },
           body: JSON.stringify(inscrit)
       }
-      console.log('boum')
-      const response = await fetch(url, options)
+      promesses.push(fetch(url, options))
+      //const response = await fetch(url, options)
+      /*fetch(url, options).then
       console.log('response', response)
       const data = await response.json()
       console.log('data', data)
-      isOK = isOK && !!data.id
+      isOK = isOK && !!data.id */
     })
-
+    console.log('boum')
+    await Promise.all(promesses)
     return {
       statusCode: 200,
       body: JSON.stringify({ data: isOK }),
