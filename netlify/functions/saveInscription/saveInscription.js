@@ -8,7 +8,9 @@ const handler = async function (event) {
   console.log('inscriptions', inscriptions)
   var isOK = true
   try {
+    console.log("bob ?", url)
     inscriptions.forEach(async (inscrit)=> {
+      console.log('bobby ?')
       inscrit.user = 1
       const options = { 
           method: 'POST',
@@ -16,6 +18,7 @@ const handler = async function (event) {
           body: JSON.stringify(inscrit)
       }
       const response = await fetch(url, options)
+      console.log('response', response)
       const data = await response.json()
       console.log('data', data)
       isOK = isOK && !!data.id
