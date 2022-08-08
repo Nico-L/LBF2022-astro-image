@@ -75,7 +75,3 @@
             </div>
     </div>
 </div>
-
-<style>
-@import "./css/styles.css";
-</style>
