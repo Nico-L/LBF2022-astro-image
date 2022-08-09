@@ -56,7 +56,7 @@
                     <button on:click={() => {if (!bouton_bleu_busy) {boutonBleu()}}} class="w-24 h-10 mx-1 px-1 border-2 border-bleuLBF rounded text-base font-medium text-bleuLBF">
                         {#if bouton_bleu_busy}
                             <svg xmlns="http://www.w3.org/2000/svg" class="fill-current stroke-current text-bleuLBF-500 bg-bleuLBF-500 h-8 w-8 mx-auto mt-1" viewBox="0 0 50 50">
-                                <g fill="none" fill-rule="evenodd" stroke-width="2">
+                                <g fill="none" fill-rule="evenodd" stroke-width="2" stroke="currentColor">
                                     <circle cx="22" cy="22" r="1">
                                         <animate attributeName="r" begin="0s" dur="1.8s" values="1; 20" calcMode="spline" keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite"/>
                                         <animate attributeName="stroke-opacity" begin="0s" dur="1.8s" values="1; 0" calcMode="spline" keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite"/>

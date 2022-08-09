@@ -21,8 +21,11 @@ function shortDate(value) {
 
 ---
 <div class="flex flex-col md:flex-row flex-wrap gap-2">
-    {galeries.map((galerie)=> (
-
+    {
+    galeries.length === 0?
+        <div>Aucune galerie ne correspond à ce mot clé. Si vous avez un projet en lien, n'hésitez pas à venir en discuter avec nous !</div>
+    :
+    galeries.map((galerie)=> (
     <div  class="relative p-2 mb-2 flex-shrink-0 rounded-md border border-lbfbleu-700 w-full">
         <div class="h4 text-lbfbleu-700 px-2">
             {galerie.titre}

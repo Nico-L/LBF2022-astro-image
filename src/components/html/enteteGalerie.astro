@@ -18,8 +18,8 @@ const tags = await data.json()
                 <div class="font-medium text-bleuLBF mr-2 capitalize">{categorie.nom}</div>
                 <select name={categorie.nom} id={categorie.nom} onchange="selectionTag(this)" class="capitalize border border-bleuLBF p-1 rounded">
                     <option value="tous" selected={leTag === "tous"}>Tous</option>
-                    {tags.filter((tag) => tag.categorie.nom == categorie.nom).map((tag) => (
-                        leTag === tag.tag?
+                    {tags.filter((tag) => tag.categorie.nom === categorie.nom).map((tag) => (
+                        leTag === slugify(tag.tag)?
                             <option value={slugify(tag.tag)} class="capitalize" selected>{tag.tag}</option>
                             : <option value={slugify(tag.tag)} class="capitalize">{tag.tag}</option>
                         

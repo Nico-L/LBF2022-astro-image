@@ -148,3 +148,12 @@
   {
     @apply bg-jauneLBFT;
   }
+
+  ul {
+    @apply list-disc list-inside ml-2;
+  }
+
+  a {
+    @apply text-orangeLBF font-medium;
+  }
+  

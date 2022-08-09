@@ -25,6 +25,11 @@ const handler = async function (event) {
   
   try {
     await client.send(message)
+    return {
+      statusCode: 200,
+      // Could be a custom message or object i.e. JSON.stringify(err)
+      body: JSON.stringify({ msg: "ok" }),
+    }
   } catch (error) {
     // output to netlify function log
     console.log(error)
