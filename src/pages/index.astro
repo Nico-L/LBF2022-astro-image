@@ -3,8 +3,7 @@ import BaseLayout from '../layouts/Layout.astro'
 import CarteAtelier from '../components/html/carteAtelier.astro'
 import { parse } from 'node-html-parser';
 
-const maintenant = (new Date('June 1, 2022 03:24:00')).toISOString()
-//const maintenant = (new Date()).toISOString()
+const maintenant = (new Date()).toISOString()
 var data = await fetch(import.meta.env.PUBLIC_CMS + "ateliers?date_gte=" + maintenant + "&_sort=date:ASC&token=" + import.meta.env.PUBLIC_TOKEN_SITE)
 const ateliers = await data.json()
 data = await fetch(import.meta.env.PUBLIC_CMS + "text-accueils/1/?token=" + import.meta.env.PUBLIC_TOKEN_SITE)
