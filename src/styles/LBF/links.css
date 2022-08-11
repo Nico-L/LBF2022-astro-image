@@ -1,5 +1,5 @@
 a {
-    @apply no-underline;
+    @apply no-underline text-orangeLBF font-medium;
   }
   
   a:not(.inactive):hover {
