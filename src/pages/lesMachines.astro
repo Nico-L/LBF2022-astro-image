@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/Layout.astro'
+import Machines from '../components/html/listeMachines.astro'
+
+var data = await fetch(import.meta.env.PUBLIC_CMS + "machines?token=" + import.meta.env.PUBLIC_TOKEN_SITE)
+const lesMachines = await data.json()
+
+const adresseCMS = import.meta.env.PUBLIC_CMS.slice(0, -1)
+---
+
+<BaseLayout title="Nos machines">
+    <Machines lesMachines={lesMachines} adresseCMS={adresseCMS}/>
+</BaseLayout>

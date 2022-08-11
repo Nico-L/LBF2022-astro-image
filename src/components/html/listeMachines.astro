@@ -1,0 +1,63 @@
+---
+import { parse } from 'node-html-parser';
+import {
+  Picture 
+} from "astro-imagetools/components";
+
+const {lesMachines, adresseCMS} = Astro.props
+
+function classCartesMachines(couleur) {
+    switch (couleur) {
+        case "bleu":
+            return "bg-bleuLBF border-lbfbleu-100"
+        case "rouge":
+            return "bg-rougeLBF border-lbfrouge-100"
+        case "jaune":
+            return "bg-jauneLBF border-lbfjaune-100"
+        case "orange":
+            return "bg-orangeLBF border-lbforange-100"
+        case "vert":
+            return "bg-vertLBF border-lbfvert-100"
+        case "violet":
+            return "bg-violetLBF border-lbfviolet-100"
+    }
+}
+---
+<h1 class="mt-12 mx-auto sm:mt-1 text-3xl sm:text-4xl mb-2 text-center">Les machines de l'atelier</h1>
+<div class="flex flex-row items-center justify-around flex-wrap">
+    {lesMachines.map((machine) => (
+        <div class={"w-320px border rounded-lg mb-4 mx-1 " + classCartesMachines(machine.couleur)}>
+            <div class="bg-gray-100 rounded-t-lg overflow-hidden">
+                <Picture
+                    src={adresseCMS + machine.illustration.media.url}
+                    alt={"Illustration " + machine.titre}
+                    sizes="180px"
+                    layout="fill"
+                    format={["webp", "jpg"]}
+                    placeholder="dominantColor"
+                    attributes={{
+                        class: "rounded-lg"
+                    }}
+                    />           
+                <div class="text-xl p-1 text-center font-bold capitalize mt-1 align-middle">{machine.nom}</div>
+                <div class="text-base text-justify p-1 align-top rounded-br-lg listeMachines">{parse(machine.resume)}</div>
+            </div>
+            <div class="rounded-b-lg">
+                {!machine.surAbonnement?
+                    <div class="my-1 mx-2 text-right">
+                        {machine.tarifHoraire !== "nous contacter" ?
+                            <span class="text-xl font-medium">{machine.tarifHoraire}</span>
+                            <span class="text-base">&nbsp;€/h</span>
+                            :
+                            <span class="text-base">Nous contacter</span>
+                        }
+                    </div>
+                    :
+                    <div class="my-1 mx-2 text-right text-base font-medium">
+                        Sur abonnement
+                    </div>
+                }
+            </div>
+        </div>
+    ))}
+</div>

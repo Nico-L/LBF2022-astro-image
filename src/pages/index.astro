@@ -9,7 +9,6 @@ var data = await fetch(import.meta.env.PUBLIC_CMS + "ateliers?date_gte=" + maint
 const ateliers = await data.json()
 data = await fetch(import.meta.env.PUBLIC_CMS + "text-accueils/1/?token=" + import.meta.env.PUBLIC_TOKEN_SITE)
 const texteVide = (await data.json()).texte
-console.log('texte', texteVide)
 const adresseCMS = import.meta.env.PUBLIC_CMS.slice(0, -1)
 ---
 
