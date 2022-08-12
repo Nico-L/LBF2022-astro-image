@@ -8,9 +8,12 @@ const machinesAbonnements = lesMachines.filter((machine) =>  machine.surAbonneme
 const machinesHoraire = lesMachines.filter((machine) =>  !machine.surAbonnement)
 
 data = await fetch(import.meta.env.PUBLIC_CMS + "abonnements-machines?token=" + import.meta.env.PUBLIC_TOKEN_SITE)
-const abonnements = await data.json()
-
-const et = "et "
+const abonnements = (await data.json()).abonnements
+console.log('abon', abonnements)
+const aboPro = abonnements.filter(abo => abo.type==="Professionnels")
+const durees = aboPro.map((abo) => {return abo.duree})
+console.log('aboPro', durees)
+const aboPart = abonnements.filter(abo => abo.type==="Particuliers")
 ---
 <BaseLayout title="Tarifs">
     <div class="sm:mt-6 mt-12 mx-1 max-w-3xl text-justify">
@@ -26,7 +29,7 @@ const et = "et "
             <div class="mx-auto text-center mt-2 font-bold border-2 border-lbforange-200 rounded shadow-md px-1 py-1">15 € la formation <br />durée environ 1h30</div>
           </div>
       
-        <div class="w-84 mx-1 border-2 border-lbfvert-500 p-2 rounded flex flex-col my-2">
+        <div class="w-fit mx-1 border-2 border-lbfvert-500 p-2 rounded flex flex-col my-2">
             <div class="text-lg text-lbfvert-800 font-bold ">Nos abonnements machines à bois</div>
             <p>Ces abonnements vous donnent libre accès à :</p>
             <ul class="list-disc list-inside ml-1">
@@ -35,15 +38,27 @@ const et = "et "
                 ))}
             </ul>
             <p class="mt-2 font-semibold">Nos tarifs :</p>
-            <div class="flex flex-row justify-around mx-auto text-center mt-2 font-bold">
-                {abonnements.abonnements.map((abonnement) => (
+            <div class="mx-auto text-center mt-2 grid grid-cols-4 gap-0 border-2 border-lbfvert-200 rounded shadow-md p-1">
+              <div class="px-2 py-1">~</div>
+              {aboPart.map((abo)=> (
+                <div class="px-2 py-1 font-semibold capitalize">{abo.duree}</div>
+              ))}
+              <div class="font-semibold">Particuliers</div>
+              {aboPart.map((abo)=> (
+                <div class="px-2 py-1">{abo.tarif} €</div>
+              ))}
+              <div class="font-semibold">Pro</div>
+              {aboPro.map((abo)=> (
+                <div class="px-2 py-1">{abo.tarif} €</div>
+              ))}
+                <!--{abonnements.map((abonnement) => (
                     abonnement.tarif!==''?
                     <div class="mx-3 border-2 border-lbfvert-200 rounded shadow-md bg-white px-1 py-1">
                       <div class="font-bold mt-1">{abonnement.duree}</div>
                       <div class="font-normal my-1">{abonnement.tarif} €</div>
                     </div>
                     :null
-                ))}
+                ))} -->
             </div>
       
         </div>
