@@ -75,7 +75,6 @@
             }
             if (id_atelier === parseInt(idAtelierUrl)) {
                 const chercheInscrits = await functionsCall("trouverInscrit", {variables: JSON.stringify({atelierId: idAtelierUrl, email: emailModif.toLowerCase(), uuid: uuidAtelierModif})})
-                console.log('inscrit', chercheInscrits.inscrits)
                 if (chercheInscrits.inscrits.length > 0) {
                     emailInscription = emailModif
                     listeInscrits = chercheInscrits.inscrits
@@ -258,10 +257,10 @@ async function envoiMail(uuid) {
     function validationSave() {
         var estValide = true
         listeInscrits.forEach((inscrit) => {
-            if (inscrit.prenom === "") {estValide = false}
+            if (inscrit.prenom === "" || inscrit.nom === "") {estValide = false}
         })
         nouveauxInscrits.forEach((inscrit) => {
-            if (inscrit.prenom === "") {estValide = false}
+            if (inscrit.prenom === "" || inscrit.nom === "") {estValide = false}
         })
         flagSaveValide = estValide
     }Modal
@@ -430,8 +429,8 @@ async function envoiMail(uuid) {
                                     {/if}
                                 </div>
                             </div>
-                            {#if nouvelInscrit.prenom===""}
-                                <div class="text-sm font-medium text-rougeLBF ">Seul le prénom est requis.</div>
+                            {#if nouvelInscrit.prenom==="" || nouvelInscrit.nom === ""}
+                                <div class="text-sm font-medium text-rougeLBF ">Nom et prénom requis.</div>
                             {:else}
                                 <div class="text-sm font-medium text-rougeLBF ">&nbsp;</div>
                             {/if}

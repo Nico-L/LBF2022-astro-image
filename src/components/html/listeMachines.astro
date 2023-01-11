@@ -1,8 +1,6 @@
 ---
 import { parse } from 'node-html-parser';
-import {
-  Picture 
-} from "astro-imagetools/components";
+import { Picture } from '@astrojs/image/components';
 
 const {lesMachines, adresseCMS} = Astro.props
 
@@ -31,13 +29,10 @@ function classCartesMachines(couleur) {
                 <Picture
                     src={adresseCMS + machine.illustration.media.url}
                     alt={"Illustration " + machine.titre}
-                    sizes="180px"
-                    layout="fill"
-                    format={["webp", "jpg"]}
-                    placeholder="dominantColor"
-                    attributes={{
-                        class: "rounded-lg"
-                    }}
+                    sizes="100vw"
+                    widths={[320]}
+                    aspectRatio="2:1"
+
                     />           
                 <div class="text-xl p-1 text-center font-bold capitalize mt-1 align-middle">{machine.nom}</div>
                 <div class="text-base text-justify p-1 align-top rounded-br-lg listeMachines">{parse(machine.resume)}</div>

@@ -1,11 +1,12 @@
 ---
 import { parse } from 'node-html-parser';
+import { Picture } from '@astrojs/image/components';
 
 const {galeries, adresseCMS} = Astro.props
 
-import {
+/*import {
   Picture 
-} from "astro-imagetools/components";
+} from "astro-imagetools/components"; */
 import slugify from 'slugify';
 
 function shortDate(value) {
@@ -40,6 +41,8 @@ function shortDate(value) {
                                 })[0].media.url}
                         alt={"Illustration " + galerie.titre}
                         sizes="100vw"
+                        widths={[100]}
+                        aspectRatio="120:100"
                         layout="fill"
                         format={["webp", "jpg"]}
                         placeholder="dominantColor"
@@ -52,6 +55,8 @@ function shortDate(value) {
                                 })[0].media.url}
                         alt={"Illustration " + galerie.titre}
                         sizes="100vw"
+                        widths={[320]}
+                        aspectRatio="320:240"
                         layout="fill"
                         format={["webp", "jpg"]}
                         placeholder="dominantColor"
