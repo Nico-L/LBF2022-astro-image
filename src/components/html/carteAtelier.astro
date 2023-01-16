@@ -35,11 +35,8 @@ if (atelier.tarifs.length > 0) {
     })
 }
 
-import {
-  Picture 
-} from "astro-imagetools/components";
+import { Picture } from '@astrojs/image/components';
 ---
-
 <div class="relative min-w-340px w-340px bg-white border border-lbforange-600 rounded mx-1 my-1">
     <div class="h-14 ml-16 flex flex-row content-center">
         <h1 class="text-lg font-bold mx-auto my-auto pl-2">{atelier.titre}</h1>
@@ -52,10 +49,9 @@ import {
         <Picture
             src={adresseImage}
             alt={"Illustration " + atelier.titre}
-            sizes="180px"
-            layout="fill"
-            format={["webp", "jpg"]}
-            placeholder="dominantColor"
+            sizes="100vw"
+            widths={[360]}
+                aspectRatio="2:1"
             />
         <Inscription 
             client:visible
