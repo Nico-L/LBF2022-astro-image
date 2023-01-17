@@ -8,7 +8,6 @@ const handler = async function (event) {
   var isOK = true
   var promesses = []
   try {
-    console.log("bob ?", url)
     inscriptions.forEach((inscrit)=> {
       inscrit.user = 1
       const options = { 

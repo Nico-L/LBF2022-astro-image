@@ -19,6 +19,7 @@ const handler = async function (event) {
           var inscrit = {
             id: item.id,
             email: item.email,
+            telephone: item.telephone,
             nom: item.nom,
             prenom: item.prenom,
             atelierId: item.atelier.id,

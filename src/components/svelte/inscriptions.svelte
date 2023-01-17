@@ -32,6 +32,7 @@
     var flagSaveValide = false
     var flagEmailVide = false
     var flagEmailInvalide = true
+    var flagTelephoneVide = true
     var busyEffacerInscription = false
     var confirmeDesinscription = false
     var busyEffacerInscrit = false
@@ -44,6 +45,7 @@
     let insertInscriptions;
     var listeInscriptionsEmail = [];
     var emailInscription = "";
+    var telephoneInscription = "";
     var donneesUtilisateur = null
     const optionsImg = {
         'resizing_type': 'fill',
@@ -77,6 +79,7 @@
                 const chercheInscrits = await functionsCall("trouverInscrit", {variables: JSON.stringify({atelierId: idAtelierUrl, email: emailModif.toLowerCase(), uuid: uuidAtelierModif})})
                 if (chercheInscrits.inscrits.length > 0) {
                     emailInscription = emailModif
+                    telephoneInscription = chercheInscrits.inscrits[0].telephone
                     listeInscrits = chercheInscrits.inscrits
                     actionEnCours = false
                     flagEmailVerifie = true
@@ -124,6 +127,12 @@
     function verifEmail() {
         const regexMail1 = /([a-zA-Z0-9+._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i.exec(emailInscription)
         flagEmailInvalide = regexMail1 === null
+        validationSave()
+    }
+
+    function verifTel() {
+        flagTelephoneVide = telephoneInscription == ""
+        validationSave()
     }
 
 async function insertInscrits() {
@@ -138,6 +147,7 @@ async function insertInscrits() {
         if (!(inscription.prenom === "" && inscription.nom === "")) {
             tableInscriptions.push({
                 "email": emailInscription.toLowerCase(), 
+                "telephone": telephoneInscription.toLocaleLowerCase(),
                 "atelier": id_atelier,
                 "nom": inscription.nom.charAt(0).toUpperCase() + inscription.nom.slice(1), 
                 "prenom": inscription.prenom.charAt(0).toUpperCase() + inscription.prenom.slice(1),
@@ -167,13 +177,12 @@ async function envoiMail(uuid) {
         let infoHoraires = dateFormatFr(date_atelier) + ' de ' + heureDebutSplit[0] + "h" + heureDebutSplit[1] + " à " + heureFinSplit[0] + "h" + heureFinSplit[1]
         var arrayMails = []
         arrayMails.push(emailInscription)
-        console.log('url image', url_illustration)
         imgProxyUrl(url_illustration, optionsImg).then(async (urlImage) => {
-            console.log('url proxy', urlImage)
             const urlDesinscription = {
                 urlMail: urlMail,
                 uuidInscription: uuid,
                 email: emailInscription,
+                telephone: telephoneInscription,
                 idAtelier: id_atelier
             }
             var infoMail = {
@@ -262,8 +271,9 @@ async function envoiMail(uuid) {
         nouveauxInscrits.forEach((inscrit) => {
             if (inscrit.prenom === "" || inscrit.nom === "") {estValide = false}
         })
-        flagSaveValide = estValide
-    }Modal
+        flagSaveValide = estValide && !flagEmailInvalide && !flagTelephoneVide
+    }
+
 	function affModal() {
         ModalInscription = true
         /*if (donneesUtilisateur !== null && donneesUtilisateur.user.doitEtreEfface) {
@@ -371,10 +381,18 @@ async function envoiMail(uuid) {
                 </div>
                 <div class="flex flex-col sm:mr-2 w-full">
                     <div class="ml-1 text-xs m-0 p-0 font-medium text-orangeLBF">Adresse email</div>
-                    <input on:input={verifEmail} class="mr-2 px-1 h-10 w-full bg-white focus:outline-none focus:bg-white focus:border-lbforange-900 border-2 border-lbforange-900 rounded-lg block appearance-none leading-normal"
-                        type="text" placeholder="email" bind:value={emailInscription} />
+                    <input class="mr-2 px-1 h-10 w-full bg-white focus:outline-none focus:bg-white focus:border-lbforange-900 border-2 border-lbforange-900 rounded-lg block appearance-none leading-normal"
+                        type="text" placeholder="email" bind:value={emailInscription}  on:input={verifEmail}/>
                     {#if flagEmailInvalide}
                         <div class="text-rougeLBF h-4 w-full">Merci d'entrer une adresse email valide.</div>
+                    {:else}
+                    <div class="text-rougeLBF h-4 w-full">&nbsp;</div>
+                    {/if}
+                    <div class="ml-1 mt-4 text-xs m-0 p-0 font-medium text-lbfbleu-700">Téléphone</div>
+                    <input class="mr-2 px-1 h-10 w-full bg-white focus:outline-none focus:bg-white focus:border-lbfbleu-900 border-2 border-lbfbleu-900 rounded-lg block appearance-none leading-normal"
+                        type="text" placeholder="téléphone" bind:value={telephoneInscription} on:input={verifTel} />
+                    {#if flagTelephoneVide}
+                        <div class="text-rougeLBF h-4 w-full">Merci d'entrer un numéro de téléphone.</div>
                     {:else}
                     <div class="text-rougeLBF h-4 w-full">&nbsp;</div>
                     {/if}
@@ -387,13 +405,13 @@ async function envoiMail(uuid) {
                         <div class="flex flex-col sm:flex-row flex-wrap ">
                             <div class="flex flex-col sm:mr-2">
                                 <div class="ml-1 text-xs m-0 p-0 font-medium text-bleuLBF">Nom</div>
-                                <input on:input={validationSave} class="mr-2 px-1 h-10 bg-white focus:outline-none focus:bg-white focus:border-lbfbleu-600 border-2 border-lbfbleu-400 rounded-lg block appearance-none leading-normal"
-                                    type="text" placeholder="nom" bind:value={inscrit.nom}/>
+                                <input class="mr-2 px-1 h-10 bg-white focus:outline-none focus:bg-white focus:border-lbfbleu-600 border-2 border-lbfbleu-400 rounded-lg block appearance-none leading-normal"
+                                    type="text" placeholder="nom" bind:value={inscrit.nom} on:input={validationSave}/>
                             </div>
                             <div class="flex flex-col sm:mr-2">
                                 <div class="ml-1 text-xs m-0 p-0 font-medium text-bleuLBF">Prénom</div>
-                                <input on:input={validationSave} class="mr-2 px-1 h-10 bg-white focus:outline-none focus:bg-white focus:border-lbfbleu-600 border-2 border-lbfbleu-400 rounded-lg block appearance-none leading-normal"
-                                    type="text" placeholder="prenom" bind:value={inscrit.prenom}/>
+                                <input class="mr-2 px-1 h-10 bg-white focus:outline-none focus:bg-white focus:border-lbfbleu-600 border-2 border-lbfbleu-400 rounded-lg block appearance-none leading-normal"
+                                    type="text" placeholder="prenom" bind:value={inscrit.prenom} on:input={validationSave}/>
                             </div>
                         </div>
                         {#if listeInscrits.length > 1}
@@ -412,13 +430,13 @@ async function envoiMail(uuid) {
                                 <div class="flex flex-col sm:flex-row">
                                     <div class="flex flex-col sm:mr-2">
                                         <div class="ml-1 text-xs m-0 p-0 font-medium text-bleuLBF">Nom</div>
-                                        <input on:input={validationSave} class="mr-2 px-1 h-10 bg-white focus:outline-none focus:bg-white focus:border-lbfbleu-600 border-2 border-lbfbleu-400 rounded-lg block appearance-none leading-normal"
-                                            type="text" placeholder="nom" bind:value={nouvelInscrit.nom}/>
+                                        <input class="mr-2 px-1 h-10 bg-white focus:outline-none focus:bg-white focus:border-lbfbleu-600 border-2 border-lbfbleu-400 rounded-lg block appearance-none leading-normal"
+                                            type="text" placeholder="nom" bind:value={nouvelInscrit.nom} on:input={validationSave}/>
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="ml-1 text-xs m-0 p-0 font-medium text-bleuLBF">Prénom</div>
-                                        <input on:input={validationSave} class="mr-2 px-1 h-10 bg-white focus:outline-none focus:bg-white focus:border-lbfbleu-600 border-2 border-lbfbleu-400 rounded-lg block appearance-none leading-normal"
-                                            type="text" placeholder="prenom" bind:value={nouvelInscrit.prenom}/>
+                                        <input class="mr-2 px-1 h-10 bg-white focus:outline-none focus:bg-white focus:border-lbfbleu-600 border-2 border-lbfbleu-400 rounded-lg block appearance-none leading-normal"
+                                            type="text" placeholder="prenom" bind:value={nouvelInscrit.prenom} on:input={validationSave}/>
                                     </div>
                                 </div>
                                 <div class="my-auto">
