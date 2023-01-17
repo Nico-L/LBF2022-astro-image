@@ -38,6 +38,7 @@
     var busyEffacerInscrit = false
     var confirmeDesinscrit = false
     var confirmeInscription = false
+    var flagSaving = false
     let saveInfo = true;
     let idInscrit = ""
     Modal;
@@ -136,6 +137,7 @@
     }
 
 async function insertInscrits() {
+    flagSaving = true
     if (listeInscrits.length > 0) {
         await functionsCall("saveInscription", {inscriptions: JSON.stringify(listeInscrits)})
         uuidInscription = listeInscrits[0].uuid
@@ -158,6 +160,7 @@ async function insertInscrits() {
     if (tableInscriptions.length > 0 ) {
         await functionsCall("saveInscription", {inscriptions: JSON.stringify(tableInscriptions)})
     }
+    flagSaving = false
     close()
     confirmeInscription = true
     envoiMail(uuidInscription)
@@ -469,7 +472,7 @@ async function envoiMail(uuid) {
                             Se désinscrire
                         </button>
                     {/if}
-                    {#if flagSaveValide}
+                    {#if flagSaveValide && !flagSaving}
                     <button on:click={insertInscrits}  class="mt-1 mx-1 px-1 border-2 border-bleuLBF rounded text-base font-medium text-bleuLBF">
                         Enregistrer
                     </button>
