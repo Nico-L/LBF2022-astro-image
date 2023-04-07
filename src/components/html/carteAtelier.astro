@@ -18,6 +18,7 @@ const listeMoisShort = [
     "déc."
 ];
 const {atelier, adresseCMS} = Astro.props;
+console.log('atelier', atelier)
 const dateJour = DateTime.fromISO(atelier.date).setZone("Europe/Paris").day;
 const moisShort = listeMoisShort[(new Date(atelier.date)).getMonth()];
 
@@ -25,7 +26,9 @@ const horaireDebut = atelier.debut.split(':')[0] + 'h' + atelier.debut.split(':'
 const horaireFin = atelier.fin.split(':')[0] + 'h' + atelier.fin.split(':')[1]
 
 const adresseImage = adresseCMS + atelier.illustration.media.url
-const leTexte = parse(atelier.description)
+const lieu = "<br /><p><strong>Lieu de RDV : </strong>"+atelier.lieu+"</p>"
+const encadrant = "<p><strong>email : </strong><br />"+atelier.encadrant.replace('@', '(arobase)').replaceAll('.','(point)')
+const leTexte = parse(atelier.description+lieu+encadrant)
 
 var besoinTarif = true
 
